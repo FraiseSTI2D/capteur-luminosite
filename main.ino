@@ -1,36 +1,27 @@
-int valeurCapteur=0;
-long momentAVANT= 0;
-long momentPRESENT;
-int etatLUMI= LOW;
+const char EntreeAna = A2;
+float E=0;
+
 void setup()
 {
-    pinMode(A0,INPUT);
-    Serial.begin(9600);
     pinMode(13, OUTPUT);
+    Serrial.begin(9600);
 }
-void loop 
+
+void loop()
 {
-    momentAVANT= millis();
-    if (momentPRESENT-momentAVANT> 10000);
+    int ValeurLue= analogRead(EntreeAna);
+    Serrial.print("Valeur CAN=  ");
+    Serrial.println(ValeurLue);
+    E=9*ValeurLue-138;
+    Serrial.print("Eclairement = ");
+    Serrial.println(E);
+    if (E < 1000)
     {
-        momentAVANT = momentPRESENT;
-        if (etatLUMI == LOW)
-        {
-            etatLUMI = HIGH;
-        }
+        digitalWrite(13,HIGH);
     }
-    else 
+    if (E > 2000)
     {
-        etatLUMI = LOW;
+        digitalWrite(13,LOW);
     }
-    digitalWrite(13, etatLUMI);
-    valeurCapteur = analoogRead(A0);
-    Serial.pringtln(valeurCapteur);
-    if(valeurCapteur>=800)
-    {
-    }
-    else
-    {
-    }
-    delay(100);
+    delay(1000);
 }
